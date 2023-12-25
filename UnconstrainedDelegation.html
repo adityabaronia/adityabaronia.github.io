@@ -9,3 +9,46 @@ If we can compromise a machine configured with unconstrained delegation, any TGT
 
 This query will return alll the computer that are permitted for unconstrained delegation:
 ADSearch.exe --search "(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))" --attributes samaccountname, dnshostname
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kerberos Authentication and Unconstrained Delegation</title>
+  <style>
+    /* Add some basic styling for readability */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kerberos Authentication and Unconstrained Delegation</h1>
+  <p>
+    A user authenticates to an application or service hosted in a domain using the Kerberos authentication protocol. For example, a user authenticates to a front-end application serving a back-end database.
+  </p>
+  <p>
+    In this scenario, the front-end application needs to authenticate itself to the back-end server (database). Unconstrained Delegation was one solution for this situation.
+  </p>
+  <p>
+    Unconstrained Delegation configures a computer with a copy of the Ticket Granting Ticket (TGT) inside the Ticket Granting Service (TGS). When the user authenticates to the front-end application, the user's TGT is extracted from TGS and cached in memory.
+  </p>
+  <p>
+    Subsequently, when the front-end application needs access to the back-end service, it uses the cached user's TGT to request the TGS for the back-end service.
+  </p>
+  <p>
+    However, Unconstrained Delegation poses a security risk. Since the user's TGT is cached by the front-end application, it can use the TGT regardless of which service is being accessed by the user. This vulnerability allows potential exploitation.
+  </p>
+  <p>
+    For instance, if a domain admin accesses the front-end application on a machine utilizing Kerberos, their TGT will be cached. If a machine configured with Unconstrained Delegation is compromised, any TGT present in that machine's memory can be extracted and used to impersonate the user against any other service in the domain.
+  </p>
+  <p>
+    Query to retrieve computers permitted for Unconstrained Delegation:
+  </p>
+  <code>
+    ADSearch.exe --search "(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))" --attributes samaccountname, dnshostname
+  </code>
+</body>
+</html>
