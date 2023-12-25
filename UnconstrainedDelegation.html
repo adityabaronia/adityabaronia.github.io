@@ -1,14 +1,3 @@
-A user can authenticate to a application or a service hosted in a domain (This authentication is done using kerberos authentication protocol). Example of this: User authenticates to a front-end application that servers a back-end database. So now here is the catch, front-end application need to authenticate it self to the back-end server(database). How will that be possible. We have never seen this thing.
-So for this situation Unconstrained Delegation was the first solution.
-We know that when unconstrained delgation is configured on a computer KDC includes a copy of Ticket Granting Ticket(TGT) inside Ticket Granting Service(TGS).
-In the example we are following, when the user authenticates to the front-end application, it extracts the user's TGT from TGS and caches it in memory. Now, when the front-end application needs to access the back-end service, it will use the cached user's TGT to request TGS for the back-end service.
-Now we will talk about Unconstrained Delegation attack:
-Since the the user's TGT is cached by front-end application, it can use the TGT regardless of which service is being accessed by the user. This is what unconstrained means.
-Consider a scenario where domain admin access the front-end application on the machine that uses Kerbeors, their TGT will be cached.
-If we can compromise a machine configured with unconstrained delegation, any TGT present in that machines memmory can be extracted and be used to impersonate the user against any other service running in domain. 
-
-This query will return alll the computer that are permitted for unconstrained delegation:
-ADSearch.exe --search "(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))" --attributes samaccountname, dnshostname
 
 <!DOCTYPE html>
 <html lang="en">
